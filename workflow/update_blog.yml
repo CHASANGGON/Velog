@@ -1,9 +1,11 @@
+name: Update Velog Blog
+
 on:
   push:
-      branches:
-        - master  # 또는 워크플로우를 트리거하고 싶은 브랜치 이름
+    branches:
+      - master  # 또는 워크플로우를 트리거하고 싶은 브랜치 이름
   schedule:
-    - cron: '0 0 * * *'  # 매일 자정에 실행
+    - cron: '0 0 * * *'  # 매일 자정에 실행 (UTC 기준)
 
 jobs:
   update_blog:
@@ -13,11 +15,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Push changes
+    - name: Set up Git
       run: |
-        git config --global CHASANGGON 'github-actions[bot]'
-        git config --global yg9618@naver.com 'github-actions[bot]@users.noreply.github.com'
-        git push https://chasanggon${{ secrets.GH_PAT_GON }}@github.com/chasanggon/velog.git
+        git config --global user.name 'CHASANGGON'
+        git config --global user.email 'yg9618@naver.com'
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -30,3 +31,9 @@ jobs:
 
     - name: Run script
       run: python scripts/update_blog.py
+
+    - name: Commit and push changes
+      run: |
+        git add .
+        git diff-index --quiet HEAD || git commit -m "Update blog posts from Velog"
+        git push https://{{ secrets.GH_PAT_GON }}@github.com/chasanggon/velog.git
