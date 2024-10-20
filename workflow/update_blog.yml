@@ -17,7 +17,7 @@ jobs:
       run: |
         git config --global CHASANGGON 'github-actions[bot]'
         git config --global yg9618@naver.com 'github-actions[bot]@users.noreply.github.com'
-        git push https://chasanggon${{ secrets.GH_PAT_GON }}@github.com/rimgosu/velog.git
+        git push https://chasanggon${{ secrets.GH_PAT_GON }}@github.com/chasanggon/velog.git
 
     - name: Set up Python
       uses: actions/setup-python@v2
